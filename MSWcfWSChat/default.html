@@ -8,7 +8,8 @@
         $().ready(function () {
             $("#spanStatus").text("connecting");
             ws = new WebSocket("ws://" + window.location.hostname + ":4068/Echo");
-            ws.binaryType = 'arraybuffer';
+            //ws.binaryType = 'arraybuffer';
+            //ws.binaryType = 'blob';
 
             ws.onopen = function () {
                 $("#spanStatus").text("connected");
@@ -44,7 +45,7 @@
             });
         });
 
-        function sendFile() {
+        function sendBlob() {
             var blob = new Blob([new Uint8Array([1, 2, 3, 4, 5])]);
             var subBlob = blob.slice(2, 3);
             var fr = new FileReader();
@@ -58,12 +59,53 @@
             fr.readAsArrayBuffer(blob);
         }
 
+        function sendFile1() {
+            var file = document.getElementById('filename').files[0];
+
+            var reader = new FileReader();
+            reader.loadend = function () {
+            }
+
+            reader.onload = function (e) {
+                var rawData = new ArrayBuffer();
+                rawData = e.target.result;
+                console.log("the File has been transferred.", rawData)
+                ws.send(rawData);
+            }
+            reader.readAsArrayBuffer(file);
+        }
+
+        function sendFile2() {
+            var file = document.getElementById('filename').files[0];
+
+            // instantiate a new FileReader object
+            var fr = new FileReader();
+
+            // loading files from the file system is an asynchronous
+            // operation, run this function when the loading process
+            // is complete
+            fr.addEventListener("loadend", function () {
+                // send the file over web sockets
+                ws.send(fr.result);
+            });
+
+            // load the file into an array buffer
+            fr.readAsArrayBuffer(file);
+        }
+
+        function sendFile() {
+            ws.send('text here');
+            var a = new Uint8Array([8, 6, 7, 3, 5, 9.0]);
+            ws.send(a.buffer);
+        }
+
+
     </script>
 </head>
 <body>
     <input type="text" id="textInput" />
     <input type="button" value="Send" id="btnSend" /><br />
-    <input id="selectFile" type="file" />
+    <input id="filename" type="file" />
     <input type="button" value="Send File" onclick="sendFile()" /><br />
     <span id="spanStatus">(display)</span>
 </body>

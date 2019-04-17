@@ -5,3 +5,10 @@ E:\_cs\Microsoft.WebSockets-master\MSWcfWSChat\bin\Microsoft.WebSockets.dll
 E:\_cs\Microsoft.WebSockets-master\MSWcfWSChat\obj\Debug\MSWcfWSChat.csprojResolveAssemblyReference.cache
 E:\_cs\Microsoft.WebSockets-master\MSWcfWSChat\obj\Debug\MSWcfWSChat.dll
 E:\_cs\Microsoft.WebSockets-master\MSWcfWSChat\obj\Debug\MSWcfWSChat.pdb
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\bin\MSWcfWSChat.dll.config
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\bin\MSWcfWSChat.dll
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\bin\MSWcfWSChat.pdb
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\bin\Microsoft.WebSockets.dll
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\obj\Debug\MSWcfWSChat.csprojResolveAssemblyReference.cache
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\obj\Debug\MSWcfWSChat.dll
+E:\_cs\Microsoft.WebSockets\MSWcfWSChat\obj\Debug\MSWcfWSChat.pdb
