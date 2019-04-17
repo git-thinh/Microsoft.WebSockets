@@ -15,8 +15,14 @@ namespace MSWcfWSChat
 
         public override void OnMessage(string message)
         {
-            string msgBack = string.Format(
-                "You have sent {0} at {1}", message, DateTime.Now.ToLongTimeString());
+            string msgBack = string.Format("You have sent {0} at {1}", message, DateTime.Now.ToLongTimeString());
+            this.Send(msgBack);
+        }
+
+        public override void OnMessage(Byte[] buffer)
+        {
+
+            string msgBack = string.Format("You have sent {0} at {1}", buffer.Length, DateTime.Now.ToLongTimeString());
             this.Send(msgBack);
         }
 

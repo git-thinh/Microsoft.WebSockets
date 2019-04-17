@@ -6,22 +6,34 @@
     <script type="text/javascript">
         var ws;
         $().ready(function () {
-            $("#btnConnect").click(function () {
-                $("#spanStatus").text("connecting");
-                ws = new WebSocket("ws://" + window.location.hostname + ":4068/Echo");
-                ws.onopen = function () {
-                    $("#spanStatus").text("connected");
-                };
-                ws.onmessage = function (evt) {
-                    $("#spanStatus").text(evt.data);
-                };
-                ws.onerror = function (evt) {
-                    $("#spanStatus").text(evt.message);
-                };
-                ws.onclose = function () {
-                    $("#spanStatus").text("disconnected");
-                };
-            });
+            $("#spanStatus").text("connecting");
+            ws = new WebSocket("ws://" + window.location.hostname + ":4068/Echo");
+            ws.binaryType = 'arraybuffer';
+
+            ws.onopen = function () {
+                $("#spanStatus").text("connected");
+            };
+            ws.onmessage = function (evt) {
+                console.log(evt.data);
+
+                //var reader = new FileReader();
+                //reader.readAsArrayBuffer(evt.data);
+                //reader.addEventListener("loadend", function (e) {
+                //    var buffer = new Uint16Array(e.target.result);  // arraybuffer object
+                //    console.log(evt.data);
+                //You can convert typed array to javascript array with this:
+                //Array.prototype.slice.call(buffer.slice());
+                //});
+
+            };
+
+            ws.onerror = function (evt) {
+                $("#spanStatus").text(evt.message);
+            };
+            ws.onclose = function () {
+                $("#spanStatus").text("disconnected");
+            };
+
             $("#btnSend").click(function () {
                 if (ws.readyState == WebSocket.OPEN) {
                     ws.send($("#textInput").val());
@@ -30,16 +42,29 @@
                     $("#spanStatus").text("Connection is closed");
                 }
             });
-            $("#btnDisconnect").click(function () {
-                ws.close();
-            });
         });
+
+        function sendFile() {
+            var blob = new Blob([new Uint8Array([1, 2, 3, 4, 5])]);
+            var subBlob = blob.slice(2, 3);
+            var fr = new FileReader();
+            fr.onload = function (e) {
+                //console.log(new Uint8Array(e.target.result)[0]);
+                //console.log(new Uint8Array(e.target.result));
+                console.log(e.target.result);
+                ws.send(e.target.result);
+            };
+            //fr.readAsArrayBuffer(subBlob);
+            fr.readAsArrayBuffer(blob);
+        }
+
     </script>
 </head>
 <body>
-    <input type="button" value="Connect" id="btnConnect" /><input type="button" value="Disconnect" id="btnDisconnect" /><br />
     <input type="text" id="textInput" />
     <input type="button" value="Send" id="btnSend" /><br />
+    <input id="selectFile" type="file" />
+    <input type="button" value="Send File" onclick="sendFile()" /><br />
     <span id="spanStatus">(display)</span>
 </body>
 </html>
